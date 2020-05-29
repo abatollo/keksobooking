@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Батолло](https://up.htmlacademy.ru/javascript/20/user/65755).
-* Наставник: `Неизвестно`.
+* Наставник: [Константин Мамаев](https://up.htmlacademy.ru/javascript/20/user/210773).
 
 ---
 
