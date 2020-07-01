@@ -1,5 +1,7 @@
 'use strict';
 
+var ADS_NUMBER = 8;
+
 var AVATAR_LIST = [
   'img/avatars/user01.png',
   'img/avatars/user02.png',
@@ -141,7 +143,7 @@ var map = document.querySelector('.map');
 
 map.classList.remove('map--faded');
 
-var ads = generateMockAds(8);
+var ads = generateMockAds(ADS_NUMBER);
 
 renderAds(ads, '#pin');
 
