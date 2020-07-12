@@ -1,5 +1,9 @@
 'use strict';
 
+// -=-=-=-=-=-=-=-
+// -= КОНСТАНТЫ =-
+// -=-=-=-=-=-=-=-
+
 var ADS_NUMBER = 8;
 
 var AVATAR_LIST = [
@@ -41,11 +45,27 @@ var OFFER_PHOTOS_LIST = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
+// -=-=-=-=-=-=-=-
+// -=- ФУНКЦИИ -=-
+// -=-=-=-=-=-=-=-
+
+// Функция получения случайного числа
+
+var getRandomNumber = function (min, max) {
+  var randomNumber = Math.floor(Math.random() * (max - min) + min);
+
+  return randomNumber;
+};
+
+// Функция получения случайного элемента из массива
+
 var getRandomArrayItem = function (arr) {
   var randomArrayItem = arr[getRandomNumber(0, arr.length)];
 
   return randomArrayItem;
 };
+
+// Функция получения массива случайной длины
 
 var getRandomLengthArray = function (arr) {
   var randomLength = getRandomNumber(0, arr.length);
@@ -64,11 +84,7 @@ var getRandomLengthArray = function (arr) {
   return randomArray;
 };
 
-var getRandomNumber = function (min, max) {
-  var randomNumber = Math.floor(Math.random() * (max - min) + min);
-
-  return randomNumber;
-};
+// Функция получения случайной строки
 
 var getRandomString = function () {
   var randomString = Math.random().toString(36).substring(2, 15);
@@ -76,11 +92,15 @@ var getRandomString = function () {
   return randomString;
 };
 
+// Функция получения ширины карты
+
 var getMapWidth = function () {
   var mapWidth = document.querySelector('.map').offsetWidth;
 
   return mapWidth;
 };
+
+// Функция создания данных в виде массива заданой длины из констант в начале файла
 
 var generateMockAds = function (arrLength) {
   var arr = [];
@@ -116,7 +136,9 @@ var generateMockAds = function (arrLength) {
   return arr;
 };
 
-var renderAd = function (ad, templateContent) {
+// Функция отрисовки одного маркера внутри содержимого шаблона
+
+var renderSinglePin = function (ad, templateContent) {
   var adElement = templateContent.cloneNode(true);
   var adElementImg = adElement.querySelector('img');
 
@@ -128,28 +150,22 @@ var renderAd = function (ad, templateContent) {
   return adElement;
 };
 
-var renderAds = function (adsArray, templateId) {
+// Функция отрисовки всех маркеров из полученного массива в оболочку шаблона
+
+var renderAllPins = function (adsArray, templateId) {
   var fragment = document.createDocumentFragment();
   var pinTemplateContent = document.querySelector(templateId).content.querySelector('.map__pin');
 
   for (var i = 0; i < adsArray.length; i++) {
-    fragment.appendChild(renderAd(adsArray[i], pinTemplateContent));
+    fragment.appendChild(renderSinglePin(adsArray[i], pinTemplateContent));
   }
 
   document.querySelector('.map__pins').appendChild(fragment);
 };
 
-var map = document.querySelector('.map');
+// Функция отрисовки одной карточки объявления
 
-map.classList.remove('map--faded');
-
-var ads = generateMockAds(ADS_NUMBER);
-
-renderAds(ads, '#pin');
-
-// Отображаем карточку объявления
-
-var renderCard = function (ad, templateContent) {
+var renderSingleCard = function (ad, templateContent) {
   var cardElement = templateContent.cloneNode(true);
   var cardElementTitle = cardElement.querySelector('.popup__title');
   var cardElementAddress = cardElement.querySelector('.popup__text--address');
@@ -202,14 +218,37 @@ var renderCard = function (ad, templateContent) {
   return cardElement;
 };
 
-var renderCards = function (adsArray, arrayIndex, templateId) {
+// Функция отрисовки всех карточек объявлений
+
+var renderAllCards = function (adsArray, arrayIndex, templateId) {
   var fragment = document.createDocumentFragment();
   var cardTemplateContent = document.querySelector(templateId).content;
 
-  fragment.appendChild(renderCard(adsArray[arrayIndex], cardTemplateContent));
+  fragment.appendChild(renderSingleCard(adsArray[arrayIndex], cardTemplateContent));
 
   var beforeElement = document.querySelector('.map__filters-container');
   document.querySelector('.map').insertBefore(fragment, beforeElement);
 };
 
-renderCards(ads, 1, '#card');
+// -=-=-=-=-=-=-=-
+// -= ПРОГРАММА =-
+// -=-=-=-=-=-=-=-
+
+// Убираем у карты стиль неактивного состояния
+
+var map = document.querySelector('.map');
+
+map.classList.remove('map--faded');
+
+// Собираем данные в виде массива из моков заданной в константе длины
+
+var ads = generateMockAds(ADS_NUMBER);
+
+// Отрисовываем сразу все маркеры на основании имеющихся данных на странице в соответствии с оболочкой шаблона
+
+renderAllPins(ads, '#pin');
+
+// Отрисовываем сразу все карточки на основании имеющихся данных на странице в соответствии с оболочкой шаблона
+// На самом деле пока отрисовываем лишь одну карточку с индексом 1
+
+renderAllCards(ads, 1, '#card');
