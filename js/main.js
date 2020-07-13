@@ -326,3 +326,71 @@ var addressX = mapPinMain.offsetLeft + (mapPinMain.offsetWidth / 2);
 var addressY = mapPinMain.offsetTop + (mapPinMain.offsetHeight / 2);
 var addressField = document.querySelector('.ad-form #address');
 addressField.value = addressX + ', ' + addressY;
+
+// Валидируем значение количества гостей: их должно быть не больше, чем количество комнат
+var roomNumberSelect = document.querySelector('#room_number');
+var roomNumberSelectOptions = roomNumberSelect.querySelectorAll('option');
+var capacitySelect = document.querySelector('#capacity');
+var capacitySelectOptions = capacitySelect.querySelectorAll('option');
+
+// По умолчанию в количестве комнат устаналиваем одну комнату
+for (var i = 0; i < roomNumberSelectOptions.length; i++) {
+  if (roomNumberSelectOptions[i].value === '1') {
+    roomNumberSelectOptions[i].selected = true;
+  }
+}
+// По умолчанию в количестве гостей устаналиваем одного гостя
+for (var i = 0; i < capacitySelectOptions.length; i++) {
+  if (capacitySelectOptions[i].value === '1') {
+    capacitySelectOptions[i].selected = true;
+  }
+}
+// По умолчанию блокируем возможность выбрать любой вариант, кроме «для 1 гостя»
+for (var i = 0; i < capacitySelectOptions.length; i++) {
+  if (capacitySelectOptions[i].value !== '1') {
+    capacitySelectOptions[i].disabled = true;
+  }
+}
+
+// При выборе другого количества комнат — смотрим сколько комнат выбрано — перебираем все возможные числа гостей —
+// — разрешаем выбирать только те числа, которые подходят, — все остальные числа отключаем
+roomNumberSelect.addEventListener('change', function (evt) {
+  switch (roomNumberSelect.value) {
+    case '1':
+      for (var i = 0; i < capacitySelectOptions.length; i++) {
+        if (capacitySelectOptions[i].value === '1') {
+          capacitySelectOptions[i].disabled = false;
+        } else {
+          capacitySelectOptions[i].disabled = true;
+        }
+      }
+      break;
+    case '2':
+      for (var i = 0; i < capacitySelectOptions.length; i++) {
+        if (capacitySelectOptions[i].value === '1' || capacitySelectOptions[i].value === '2') {
+          capacitySelectOptions[i].disabled = false;
+        } else {
+          capacitySelectOptions[i].disabled = true;
+        }
+      }
+      break;
+    case '3':
+      for (var i = 0; i < capacitySelectOptions.length; i++) {
+        if (capacitySelectOptions[i].value === '1' || capacitySelectOptions[i].value === '2' || capacitySelectOptions[i].value === '3') {
+          capacitySelectOptions[i].disabled = false;
+        } else {
+          capacitySelectOptions[i].disabled = true;
+        }
+      }
+      break;
+    case '100':
+      for (var i = 0; i < capacitySelectOptions.length; i++) {
+        if (capacitySelectOptions[i].value === '0') {
+          capacitySelectOptions[i].disabled = false;
+        } else {
+          capacitySelectOptions[i].disabled = true;
+        }
+      }
+      break;
+  }
+});
