@@ -230,15 +230,37 @@ var renderAllCards = function (adsArray, arrayIndex, templateId) {
   document.querySelector('.map').insertBefore(fragment, beforeElement);
 };
 
+// Функция активации карты по клику или нажатию Enter на главном маркере
+var activateMap = function () {
+  var map = document.querySelector('.map');
+
+  map.classList.remove('map--faded');
+
+  // Удаляем обработчики клика мышкой и нажатия с клавиатуры по главному маркеру, раз карта уже активирована
+  mapPinMain.removeEventListener('mousedown', onMapPinMainClick);
+  mapPinMain.removeEventListener('keydown', onMapPinMainKeydown);
+};
+
+// Функция реакции на нажатие мышкой на главный маркер
+var onMapPinMainClick = function (evt) {
+  evt.preventDefault();
+  // Реагируем на нажатие только левой кнопки мышки
+  if (evt.button === 0) {
+    activateMap();
+  }
+};
+
+// Функция реакции на нажатие с клавиатуры по главному маркеру
+var onMapPinMainKeydown = function (evt) {
+  // Реагируем на нажатие клавиатурной клавиши Enter, Return или её эквивалента по коду
+  if (evt.keyCode === 13) {
+    activateMap();
+  }
+};
+
 // -=-=-=-=-=-=-=-
 // -= ПРОГРАММА =-
 // -=-=-=-=-=-=-=-
-
-// Убираем у карты стиль неактивного состояния
-
-var map = document.querySelector('.map');
-
-map.classList.remove('map--faded');
 
 // Собираем данные в виде массива из моков заданной в константе длины
 
@@ -252,3 +274,9 @@ renderAllPins(ads, '#pin');
 // На самом деле пока отрисовываем лишь одну карточку с индексом 1
 
 renderAllCards(ads, 1, '#card');
+
+// Убираем у карты стиль неактивного состояния по нажатию на главный маркер мышью или с клавиатуры
+
+var mapPinMain = document.querySelector('.map__pin--main');
+mapPinMain.addEventListener('mousedown', onMapPinMainClick);
+mapPinMain.addEventListener('keydown', onMapPinMainKeydown);
