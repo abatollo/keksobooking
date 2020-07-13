@@ -232,13 +232,30 @@ var renderAllCards = function (adsArray, arrayIndex, templateId) {
 
 // Функция активации карты по клику или нажатию Enter на главном маркере
 var activateMap = function () {
-  var map = document.querySelector('.map');
 
+  // Убираем затенение у карты
+  var map = document.querySelector('.map');
   map.classList.remove('map--faded');
 
-  // Удаляем обработчики клика мышкой и нажатия с клавиатуры по главному маркеру, раз карта уже активирована
+  // Удаляем обработчики клика мышкой и нажатия с клавиатуры по главному маркеру, раз пользователь активировал карту и форму
   mapPinMain.removeEventListener('mousedown', onMapPinMainClick);
   mapPinMain.removeEventListener('keydown', onMapPinMainKeydown);
+
+  // Убираем у select в форме фильтрации объявлений атрибут disabled, раз пользователь активировал карту и форму
+  for (var i = 0; i < mapFiltersSelects.length; i++) {
+    mapFiltersSelects[i].disabled = false;
+  }
+
+  // Убираем у fieldset в форме фильтрации объявлений атрибут disabled, раз пользователь активировал карту и форму
+  mapFiltersFieldset.disabled = false;
+
+  // Убираем у формы класс ad-form--disabled, раз пользователь активировал карту и форму
+  adForm.classList.remove('ad-form--disabled');
+
+  // Убираем у блоков fieldset в форме заполнения объявления атрибут disabled, раз пользователь активировал карту и форму
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].disabled = false;
+  }
 };
 
 // Функция реакции на нажатие мышкой на главный маркер
@@ -267,16 +284,33 @@ var onMapPinMainKeydown = function (evt) {
 var ads = generateMockAds(ADS_NUMBER);
 
 // Отрисовываем сразу все маркеры на основании имеющихся данных на странице в соответствии с оболочкой шаблона
-
 renderAllPins(ads, '#pin');
 
 // Отрисовываем сразу все карточки на основании имеющихся данных на странице в соответствии с оболочкой шаблона
 // На самом деле пока отрисовываем лишь одну карточку с индексом 1
-
 renderAllCards(ads, 1, '#card');
 
-// Убираем у карты стиль неактивного состояния по нажатию на главный маркер мышью или с клавиатуры
+// Добавляем на select в форме фильтрации объявлений атрибут disabled, который убираем, если пользователь активировал карту и форму
+var mapFiltersSelects = document.querySelectorAll('.map__filters select');
+for (var i = 0; i < mapFiltersSelects.length; i++) {
+  mapFiltersSelects[i].disabled = true;
+}
 
+// Добавляем на fieldset в форме фильтрации объявлений атрибут disabled, который убираем, если пользователь активировал карту и форму
+var mapFiltersFieldset = document.querySelector('.map__filters fieldset');
+mapFiltersFieldset.disabled = true;
+
+// Добавляем форме класс ad-form--disabled, который убираем, если пользователь активировал карту и форму
+var adForm = document.querySelector('.ad-form');
+adForm.classList.add('ad-form--disabled');
+
+// Добавляем на блоки fieldset в форме заполнения объявления атрибут disabled, который убираем, если пользователь активировал карту и форму
+var adFormFieldsets = document.querySelectorAll('.ad-form fieldset');
+for (var i = 0; i < adFormFieldsets.length; i++) {
+  adFormFieldsets[i].disabled = true;
+}
+
+// Убираем у карты стиль неактивного состояния по нажатию на главный маркер мышью или с клавиатуры
 var mapPinMain = document.querySelector('.map__pin--main');
 mapPinMain.addEventListener('mousedown', onMapPinMainClick);
 mapPinMain.addEventListener('keydown', onMapPinMainKeydown);
