@@ -256,6 +256,12 @@ var activateMap = function () {
   for (var i = 0; i < adFormFieldsets.length; i++) {
     adFormFieldsets[i].disabled = false;
   }
+
+  // Устанавливаем координаты острого конца главной метки и подставляем их в поле адреса
+  // 22 пикселя — это высота острого конца, который задан с помощью элемента ::after
+  var newAddressX = mapPinMain.offsetLeft + (mapPinMain.offsetWidth / 2);
+  var newAddressY = mapPinMain.offsetTop + mapPinMain.offsetHeight + 22;
+  addressField.value = newAddressX + ', ' + newAddressY;
 };
 
 // Функция реакции на нажатие мышкой на главный маркер
@@ -314,3 +320,9 @@ for (var i = 0; i < adFormFieldsets.length; i++) {
 var mapPinMain = document.querySelector('.map__pin--main');
 mapPinMain.addEventListener('mousedown', onMapPinMainClick);
 mapPinMain.addEventListener('keydown', onMapPinMainKeydown);
+
+// Устанавливаем координаты середины главной метки и подставляем их в поле адреса
+var addressX = mapPinMain.offsetLeft + (mapPinMain.offsetWidth / 2);
+var addressY = mapPinMain.offsetTop + (mapPinMain.offsetHeight / 2);
+var addressField = document.querySelector('.ad-form #address');
+addressField.value = addressX + ', ' + addressY;
