@@ -253,7 +253,7 @@ var activateMap = function () {
   adForm.classList.remove('ad-form--disabled');
 
   // Убираем у блоков fieldset в форме заполнения объявления атрибут disabled, раз пользователь активировал карту и форму
-  for (var i = 0; i < adFormFieldsets.length; i++) {
+  for (i = 0; i < adFormFieldsets.length; i++) {
     adFormFieldsets[i].disabled = false;
   }
 
@@ -312,7 +312,7 @@ adForm.classList.add('ad-form--disabled');
 
 // Добавляем на блоки fieldset в форме заполнения объявления атрибут disabled, который убираем, если пользователь активировал карту и форму
 var adFormFieldsets = document.querySelectorAll('.ad-form fieldset');
-for (var i = 0; i < adFormFieldsets.length; i++) {
+for (i = 0; i < adFormFieldsets.length; i++) {
   adFormFieldsets[i].disabled = true;
 }
 
@@ -334,19 +334,19 @@ var capacitySelect = document.querySelector('#capacity');
 var capacitySelectOptions = capacitySelect.querySelectorAll('option');
 
 // По умолчанию в количестве комнат устаналиваем одну комнату
-for (var i = 0; i < roomNumberSelectOptions.length; i++) {
+for (i = 0; i < roomNumberSelectOptions.length; i++) {
   if (roomNumberSelectOptions[i].value === '1') {
     roomNumberSelectOptions[i].selected = true;
   }
 }
 // По умолчанию в количестве гостей устаналиваем одного гостя
-for (var i = 0; i < capacitySelectOptions.length; i++) {
+for (i = 0; i < capacitySelectOptions.length; i++) {
   if (capacitySelectOptions[i].value === '1') {
     capacitySelectOptions[i].selected = true;
   }
 }
 // По умолчанию блокируем возможность выбрать любой вариант, кроме «для 1 гостя»
-for (var i = 0; i < capacitySelectOptions.length; i++) {
+for (i = 0; i < capacitySelectOptions.length; i++) {
   if (capacitySelectOptions[i].value !== '1') {
     capacitySelectOptions[i].disabled = true;
   }
@@ -354,10 +354,10 @@ for (var i = 0; i < capacitySelectOptions.length; i++) {
 
 // При выборе другого количества комнат — смотрим сколько комнат выбрано — перебираем все возможные числа гостей —
 // — разрешаем выбирать только те числа, которые подходят, — все остальные числа отключаем
-roomNumberSelect.addEventListener('change', function (evt) {
+roomNumberSelect.addEventListener('change', function () {
   switch (roomNumberSelect.value) {
     case '1':
-      for (var i = 0; i < capacitySelectOptions.length; i++) {
+      for (i = 0; i < capacitySelectOptions.length; i++) {
         if (capacitySelectOptions[i].value === '1') {
           capacitySelectOptions[i].disabled = false;
         } else {
@@ -366,7 +366,7 @@ roomNumberSelect.addEventListener('change', function (evt) {
       }
       break;
     case '2':
-      for (var i = 0; i < capacitySelectOptions.length; i++) {
+      for (i = 0; i < capacitySelectOptions.length; i++) {
         if (capacitySelectOptions[i].value === '1' || capacitySelectOptions[i].value === '2') {
           capacitySelectOptions[i].disabled = false;
         } else {
@@ -375,7 +375,7 @@ roomNumberSelect.addEventListener('change', function (evt) {
       }
       break;
     case '3':
-      for (var i = 0; i < capacitySelectOptions.length; i++) {
+      for (i = 0; i < capacitySelectOptions.length; i++) {
         if (capacitySelectOptions[i].value === '1' || capacitySelectOptions[i].value === '2' || capacitySelectOptions[i].value === '3') {
           capacitySelectOptions[i].disabled = false;
         } else {
@@ -384,7 +384,7 @@ roomNumberSelect.addEventListener('change', function (evt) {
       }
       break;
     case '100':
-      for (var i = 0; i < capacitySelectOptions.length; i++) {
+      for (i = 0; i < capacitySelectOptions.length; i++) {
         if (capacitySelectOptions[i].value === '0') {
           capacitySelectOptions[i].disabled = false;
         } else {
