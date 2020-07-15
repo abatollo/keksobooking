@@ -45,6 +45,13 @@ var OFFER_PHOTOS_LIST = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
+var COMPLIANCE_OPTIONS = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
 // -=-=-=-=-=-=-=-
 // -=- ФУНКЦИИ -=-
 // -=-=-=-=-=-=-=-
@@ -355,42 +362,16 @@ for (i = 0; i < capacitySelectOptions.length; i++) {
 // При выборе другого количества комнат — смотрим сколько комнат выбрано — перебираем все возможные числа гостей —
 // — разрешаем выбирать только те числа, которые подходят, — все остальные числа отключаем
 roomNumberSelect.addEventListener('change', function () {
-  switch (roomNumberSelect.value) {
-    case '1':
-      for (i = 0; i < capacitySelectOptions.length; i++) {
-        if (capacitySelectOptions[i].value === '1') {
-          capacitySelectOptions[i].disabled = false;
-        } else {
-          capacitySelectOptions[i].disabled = true;
-        }
-      }
-      break;
-    case '2':
-      for (i = 0; i < capacitySelectOptions.length; i++) {
-        if (capacitySelectOptions[i].value === '1' || capacitySelectOptions[i].value === '2') {
-          capacitySelectOptions[i].disabled = false;
-        } else {
-          capacitySelectOptions[i].disabled = true;
-        }
-      }
-      break;
-    case '3':
-      for (i = 0; i < capacitySelectOptions.length; i++) {
-        if (capacitySelectOptions[i].value === '1' || capacitySelectOptions[i].value === '2' || capacitySelectOptions[i].value === '3') {
-          capacitySelectOptions[i].disabled = false;
-        } else {
-          capacitySelectOptions[i].disabled = true;
-        }
-      }
-      break;
-    case '100':
-      for (i = 0; i < capacitySelectOptions.length; i++) {
-        if (capacitySelectOptions[i].value === '0') {
-          capacitySelectOptions[i].disabled = false;
-        } else {
-          capacitySelectOptions[i].disabled = true;
-        }
-      }
-      break;
+  console.log('roomNumberSelect.value = ' + roomNumberSelect.value);
+  console.log('COMPLIANCE_OPTIONS[roomNumberSelect.value] = ' + COMPLIANCE_OPTIONS[roomNumberSelect.value]);
+
+  // Перебириаем массив с колличеством мест для гостей. Если значение опции получается найти в массиве (то есть индекс элемента >= 0),
+  // который является значением соответствующего свойства в объекте COMPLIANCE_OPTIONS, то опцию надо включить, а если нет — выключить
+  for (i = 0; i < capacitySelectOptions.length; i++) {
+    if (COMPLIANCE_OPTIONS[roomNumberSelect.value].indexOf(capacitySelectOptions[i].value) >= 0) {
+      capacitySelectOptions[i].disabled = false;
+    } else {
+      capacitySelectOptions[i].disabled = true;
+    }
   }
 });
