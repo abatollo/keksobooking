@@ -362,9 +362,6 @@ for (i = 0; i < capacitySelectOptions.length; i++) {
 // При выборе другого количества комнат — смотрим сколько комнат выбрано — перебираем все возможные числа гостей —
 // — разрешаем выбирать только те числа, которые подходят, — все остальные числа отключаем
 roomNumberSelect.addEventListener('change', function () {
-  console.log('roomNumberSelect.value = ' + roomNumberSelect.value);
-  console.log('COMPLIANCE_OPTIONS[roomNumberSelect.value] = ' + COMPLIANCE_OPTIONS[roomNumberSelect.value]);
-
   // Перебириаем массив с колличеством мест для гостей. Если значение опции получается найти в массиве (то есть индекс элемента >= 0),
   // который является значением соответствующего свойства в объекте COMPLIANCE_OPTIONS, то опцию надо включить, а если нет — выключить
   for (i = 0; i < capacitySelectOptions.length; i++) {
