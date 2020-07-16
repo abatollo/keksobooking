@@ -1,5 +1,11 @@
 'use strict';
 
+// -=-=-=-=-=-=-=-
+// -= КОНСТАНТЫ =-
+// -=-=-=-=-=-=-=-
+
+var ADS_NUMBER = 8;
+
 var AVATAR_LIST = [
   'img/avatars/user01.png',
   'img/avatars/user02.png',
@@ -39,11 +45,34 @@ var OFFER_PHOTOS_LIST = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
+var COMPLIANCE_OPTIONS = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
+// -=-=-=-=-=-=-=-
+// -=- ФУНКЦИИ -=-
+// -=-=-=-=-=-=-=-
+
+// Функция получения случайного числа
+
+var getRandomNumber = function (min, max) {
+  var randomNumber = Math.floor(Math.random() * (max - min) + min);
+
+  return randomNumber;
+};
+
+// Функция получения случайного элемента из массива
+
 var getRandomArrayItem = function (arr) {
   var randomArrayItem = arr[getRandomNumber(0, arr.length)];
 
   return randomArrayItem;
 };
+
+// Функция получения массива случайной длины
 
 var getRandomLengthArray = function (arr) {
   var randomLength = getRandomNumber(0, arr.length);
@@ -62,11 +91,7 @@ var getRandomLengthArray = function (arr) {
   return randomArray;
 };
 
-var getRandomNumber = function (min, max) {
-  var randomNumber = Math.floor(Math.random() * (max - min) + min);
-
-  return randomNumber;
-};
+// Функция получения случайной строки
 
 var getRandomString = function () {
   var randomString = Math.random().toString(36).substring(2, 15);
@@ -74,11 +99,15 @@ var getRandomString = function () {
   return randomString;
 };
 
+// Функция получения ширины карты
+
 var getMapWidth = function () {
   var mapWidth = document.querySelector('.map').offsetWidth;
 
   return mapWidth;
 };
+
+// Функция создания данных в виде массива заданой длины из констант в начале файла
 
 var generateMockAds = function (arrLength) {
   var arr = [];
@@ -114,7 +143,9 @@ var generateMockAds = function (arrLength) {
   return arr;
 };
 
-var renderAd = function (ad, templateContent) {
+// Функция отрисовки одного маркера внутри содержимого шаблона
+
+var renderSinglePin = function (ad, templateContent) {
   var adElement = templateContent.cloneNode(true);
   var adElementImg = adElement.querySelector('img');
 
@@ -126,28 +157,22 @@ var renderAd = function (ad, templateContent) {
   return adElement;
 };
 
-var renderAds = function (adsArray, templateId) {
+// Функция отрисовки всех маркеров из полученного массива в оболочку шаблона
+
+var renderAllPins = function (adsArray, templateId) {
   var fragment = document.createDocumentFragment();
   var pinTemplateContent = document.querySelector(templateId).content.querySelector('.map__pin');
 
   for (var i = 0; i < adsArray.length; i++) {
-    fragment.appendChild(renderAd(adsArray[i], pinTemplateContent));
+    fragment.appendChild(renderSinglePin(adsArray[i], pinTemplateContent));
   }
 
   document.querySelector('.map__pins').appendChild(fragment);
 };
 
-var map = document.querySelector('.map');
+// Функция отрисовки одной карточки объявления
 
-map.classList.remove('map--faded');
-
-var ads = generateMockAds(8);
-
-renderAds(ads, '#pin');
-
-// Отображаем карточку объявления
-
-var renderCard = function (ad, templateContent) {
+var renderSingleCard = function (ad, templateContent) {
   var cardElement = templateContent.cloneNode(true);
   var cardElementTitle = cardElement.querySelector('.popup__title');
   var cardElementAddress = cardElement.querySelector('.popup__text--address');
@@ -200,14 +225,150 @@ var renderCard = function (ad, templateContent) {
   return cardElement;
 };
 
-var renderCards = function (adsArray, arrayIndex, templateId) {
+// Функция отрисовки всех карточек объявлений
+
+var renderAllCards = function (adsArray, arrayIndex, templateId) {
   var fragment = document.createDocumentFragment();
   var cardTemplateContent = document.querySelector(templateId).content;
 
-  fragment.appendChild(renderCard(adsArray[arrayIndex], cardTemplateContent));
+  fragment.appendChild(renderSingleCard(adsArray[arrayIndex], cardTemplateContent));
 
   var beforeElement = document.querySelector('.map__filters-container');
   document.querySelector('.map').insertBefore(fragment, beforeElement);
 };
 
-renderCards(ads, 1, '#card');
+// Функция активации карты по клику или нажатию Enter на главном маркере
+var activateMap = function () {
+
+  // Убираем затенение у карты
+  var map = document.querySelector('.map');
+  map.classList.remove('map--faded');
+
+  // Удаляем обработчики клика мышкой и нажатия с клавиатуры по главному маркеру, раз пользователь активировал карту и форму
+  mapPinMain.removeEventListener('mousedown', onMapPinMainClick);
+  mapPinMain.removeEventListener('keydown', onMapPinMainKeydown);
+
+  // Убираем у select в форме фильтрации объявлений атрибут disabled, раз пользователь активировал карту и форму
+  for (var i = 0; i < mapFiltersSelects.length; i++) {
+    mapFiltersSelects[i].disabled = false;
+  }
+
+  // Убираем у fieldset в форме фильтрации объявлений атрибут disabled, раз пользователь активировал карту и форму
+  mapFiltersFieldset.disabled = false;
+
+  // Убираем у формы класс ad-form--disabled, раз пользователь активировал карту и форму
+  adForm.classList.remove('ad-form--disabled');
+
+  // Убираем у блоков fieldset в форме заполнения объявления атрибут disabled, раз пользователь активировал карту и форму
+  for (i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].disabled = false;
+  }
+
+  // Устанавливаем координаты острого конца главной метки и подставляем их в поле адреса
+  // 22 пикселя — это высота острого конца, который задан с помощью элемента ::after
+  var newAddressX = mapPinMain.offsetLeft + (mapPinMain.offsetWidth / 2);
+  var newAddressY = mapPinMain.offsetTop + mapPinMain.offsetHeight + 22;
+  addressField.value = newAddressX + ', ' + newAddressY;
+};
+
+// Функция реакции на нажатие мышкой на главный маркер
+var onMapPinMainClick = function (evt) {
+  evt.preventDefault();
+  // Реагируем на нажатие только левой кнопки мышки
+  if (evt.button === 0) {
+    activateMap();
+  }
+};
+
+// Функция реакции на нажатие с клавиатуры по главному маркеру
+var onMapPinMainKeydown = function (evt) {
+  // Реагируем на нажатие клавиатурной клавиши Enter, Return или её эквивалента по коду
+  if (evt.keyCode === 13) {
+    activateMap();
+  }
+};
+
+// -=-=-=-=-=-=-=-
+// -= ПРОГРАММА =-
+// -=-=-=-=-=-=-=-
+
+// Собираем данные в виде массива из моков заданной в константе длины
+
+var ads = generateMockAds(ADS_NUMBER);
+
+// Отрисовываем сразу все маркеры на основании имеющихся данных на странице в соответствии с оболочкой шаблона
+renderAllPins(ads, '#pin');
+
+// Отрисовываем сразу все карточки на основании имеющихся данных на странице в соответствии с оболочкой шаблона
+// На самом деле пока отрисовываем лишь одну карточку с индексом 1
+renderAllCards(ads, 1, '#card');
+
+// Добавляем на select в форме фильтрации объявлений атрибут disabled, который убираем, если пользователь активировал карту и форму
+var mapFiltersSelects = document.querySelectorAll('.map__filters select');
+for (var i = 0; i < mapFiltersSelects.length; i++) {
+  mapFiltersSelects[i].disabled = true;
+}
+
+// Добавляем на fieldset в форме фильтрации объявлений атрибут disabled, который убираем, если пользователь активировал карту и форму
+var mapFiltersFieldset = document.querySelector('.map__filters fieldset');
+mapFiltersFieldset.disabled = true;
+
+// Добавляем форме класс ad-form--disabled, который убираем, если пользователь активировал карту и форму
+var adForm = document.querySelector('.ad-form');
+adForm.classList.add('ad-form--disabled');
+
+// Добавляем на блоки fieldset в форме заполнения объявления атрибут disabled, который убираем, если пользователь активировал карту и форму
+var adFormFieldsets = document.querySelectorAll('.ad-form fieldset');
+for (i = 0; i < adFormFieldsets.length; i++) {
+  adFormFieldsets[i].disabled = true;
+}
+
+// Убираем у карты стиль неактивного состояния по нажатию на главный маркер мышью или с клавиатуры
+var mapPinMain = document.querySelector('.map__pin--main');
+mapPinMain.addEventListener('mousedown', onMapPinMainClick);
+mapPinMain.addEventListener('keydown', onMapPinMainKeydown);
+
+// Устанавливаем координаты середины главной метки и подставляем их в поле адреса
+var addressX = mapPinMain.offsetLeft + (mapPinMain.offsetWidth / 2);
+var addressY = mapPinMain.offsetTop + (mapPinMain.offsetHeight / 2);
+var addressField = document.querySelector('.ad-form #address');
+addressField.value = addressX + ', ' + addressY;
+
+// Валидируем значение количества гостей: их должно быть не больше, чем количество комнат
+var roomNumberSelect = document.querySelector('#room_number');
+var roomNumberSelectOptions = roomNumberSelect.querySelectorAll('option');
+var capacitySelect = document.querySelector('#capacity');
+var capacitySelectOptions = capacitySelect.querySelectorAll('option');
+
+// По умолчанию в количестве комнат устаналиваем одну комнату
+for (i = 0; i < roomNumberSelectOptions.length; i++) {
+  if (roomNumberSelectOptions[i].value === '1') {
+    roomNumberSelectOptions[i].selected = true;
+  }
+}
+// По умолчанию в количестве гостей устаналиваем одного гостя
+for (i = 0; i < capacitySelectOptions.length; i++) {
+  if (capacitySelectOptions[i].value === '1') {
+    capacitySelectOptions[i].selected = true;
+  }
+}
+// По умолчанию блокируем возможность выбрать любой вариант, кроме «для 1 гостя»
+for (i = 0; i < capacitySelectOptions.length; i++) {
+  if (capacitySelectOptions[i].value !== '1') {
+    capacitySelectOptions[i].disabled = true;
+  }
+}
+
+// При выборе другого количества комнат — смотрим сколько комнат выбрано — перебираем все возможные числа гостей —
+// — разрешаем выбирать только те числа, которые подходят, — все остальные числа отключаем
+roomNumberSelect.addEventListener('change', function () {
+  // Перебириаем массив с колличеством мест для гостей. Если значение опции получается найти в массиве (то есть индекс элемента >= 0),
+  // который является значением соответствующего свойства в объекте COMPLIANCE_OPTIONS, то опцию надо включить, а если нет — выключить
+  for (i = 0; i < capacitySelectOptions.length; i++) {
+    if (COMPLIANCE_OPTIONS[roomNumberSelect.value].indexOf(capacitySelectOptions[i].value) >= 0) {
+      capacitySelectOptions[i].disabled = false;
+    } else {
+      capacitySelectOptions[i].disabled = true;
+    }
+  }
+});
