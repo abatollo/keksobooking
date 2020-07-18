@@ -55,6 +55,13 @@ var COMPLIANCE_OPTIONS = {
   '100': ['0']
 };
 
+var TYPE_PRICE = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+
 // -=-=-=-=-=-=-=-
 // -=- ФУНКЦИИ -=-
 // -=-=-=-=-=-=-=-
@@ -186,6 +193,7 @@ var renderAllPins = function (adsArray, templateId) {
 };
 
 // Функция удаления карточки объявления
+
 var removeCard = function () {
   var oldCard = document.querySelector('.map__card');
   if (oldCard) {
@@ -193,8 +201,11 @@ var removeCard = function () {
   }
 };
 
+// Функция удаления карточки объявления по нажатию на Escape
+
 var onCardEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
+    evt.preventDefault();
     removeCard();
     document.removeEventListener('keydown', onCardEscPress);
   }
@@ -408,4 +419,26 @@ roomNumberSelect.addEventListener('change', function () {
       capacitySelectOptions[i].disabled = true;
     }
   }
+});
+
+// В зависимости от типа жилья меняем минимальное значение цены и placeholder в соответствии с правилами в TYPE_PRICE
+
+var typeSelect = document.querySelector('#type');
+var priceInput = document.querySelector('#price');
+
+typeSelect.addEventListener('change', function () {
+  priceInput.min = TYPE_PRICE[typeSelect.value];
+  priceInput.placeholder = TYPE_PRICE[typeSelect.value];
+});
+
+// При выборе времени заезда выставляем такое же время выезда и наоборот
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
+
+timeInSelect.addEventListener('change', function () {
+  timeOutSelect.value = timeInSelect.value;
+});
+
+timeOutSelect.addEventListener('change', function () {
+  timeInSelect.value = timeOutSelect.value;
 });
