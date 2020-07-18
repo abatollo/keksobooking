@@ -4,6 +4,9 @@
 // -= КОНСТАНТЫ =-
 // -=-=-=-=-=-=-=-
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 var ADS_NUMBER = 8;
 
 var AVATAR_LIST = [
@@ -50,6 +53,13 @@ var COMPLIANCE_OPTIONS = {
   '2': ['1', '2'],
   '3': ['1', '2', '3'],
   '100': ['0']
+};
+
+var TYPE_PRICE = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
 };
 
 // -=-=-=-=-=-=-=-
@@ -145,7 +155,7 @@ var generateMockAds = function (arrLength) {
 
 // Функция отрисовки одного маркера внутри содержимого шаблона
 
-var renderSinglePin = function (ad, templateContent) {
+var renderSinglePin = function (ad, templateContent, iterator) {
   var adElement = templateContent.cloneNode(true);
   var adElementImg = adElement.querySelector('img');
 
@@ -153,6 +163,18 @@ var renderSinglePin = function (ad, templateContent) {
   adElement.style.top = ad.location.y - 70 + 'px';
   adElementImg.setAttribute('src', ad.author.avatar);
   adElementImg.setAttribute('alt', ad.offer.title);
+
+  adElement.addEventListener('click', function () {
+    removeCard();
+    renderAllCards(ads, iterator, '#card');
+  });
+
+  adElement.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      removeCard();
+      renderAllCards(ads, iterator, '#card');
+    }
+  });
 
   return adElement;
 };
@@ -164,10 +186,29 @@ var renderAllPins = function (adsArray, templateId) {
   var pinTemplateContent = document.querySelector(templateId).content.querySelector('.map__pin');
 
   for (var i = 0; i < adsArray.length; i++) {
-    fragment.appendChild(renderSinglePin(adsArray[i], pinTemplateContent));
+    fragment.appendChild(renderSinglePin(adsArray[i], pinTemplateContent, i));
   }
 
   document.querySelector('.map__pins').appendChild(fragment);
+};
+
+// Функция удаления карточки объявления
+
+var removeCard = function () {
+  var oldCard = document.querySelector('.map__card');
+  if (oldCard) {
+    oldCard.remove();
+  }
+};
+
+// Функция удаления карточки объявления по нажатию на Escape
+
+var onCardEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    evt.preventDefault();
+    removeCard();
+    document.removeEventListener('keydown', onCardEscPress);
+  }
 };
 
 // Функция отрисовки одной карточки объявления
@@ -184,6 +225,7 @@ var renderSingleCard = function (ad, templateContent) {
   var cardElementDescription = cardElement.querySelector('.popup__description');
   var cardElementPhotos = cardElement.querySelector('.popup__photos');
   var cardElementAvatar = cardElement.querySelector('.popup__avatar');
+  var cardElementClose = cardElement.querySelector('.popup__close');
 
   cardElementTitle.textContent = ad.offer.title;
   cardElementAddress.textContent = ad.offer.address;
@@ -221,6 +263,12 @@ var renderSingleCard = function (ad, templateContent) {
     }
   }
   cardElementAvatar.setAttribute('src', ad.author.avatar);
+
+  cardElementClose.addEventListener('click', function () {
+    removeCard();
+  });
+
+  document.addEventListener('keydown', onCardEscPress);
 
   return cardElement;
 };
@@ -371,4 +419,26 @@ roomNumberSelect.addEventListener('change', function () {
       capacitySelectOptions[i].disabled = true;
     }
   }
+});
+
+// В зависимости от типа жилья меняем минимальное значение цены и placeholder в соответствии с правилами в TYPE_PRICE
+
+var typeSelect = document.querySelector('#type');
+var priceInput = document.querySelector('#price');
+
+typeSelect.addEventListener('change', function () {
+  priceInput.min = TYPE_PRICE[typeSelect.value];
+  priceInput.placeholder = TYPE_PRICE[typeSelect.value];
+});
+
+// При выборе времени заезда выставляем такое же время выезда и наоборот
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
+
+timeInSelect.addEventListener('change', function () {
+  timeOutSelect.value = timeInSelect.value;
+});
+
+timeOutSelect.addEventListener('change', function () {
+  timeInSelect.value = timeOutSelect.value;
 });
