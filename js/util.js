@@ -7,6 +7,9 @@ window.util = (function () {
   var ENTER_KEYCODE = 13;
   var PIN_ID = '#pin';
   var CARD_ID = '#card';
+  var PIN_HEIGHT = 22;
+  var TOP_LIMIT = 43;
+  var BOTTOM_LIMIT = 543;
 
   // Функция получения случайного числа
 
@@ -56,6 +59,9 @@ window.util = (function () {
     ENTER_KEYCODE: ENTER_KEYCODE,
     PIN_ID: PIN_ID,
     CARD_ID: CARD_ID,
+    PIN_HEIGHT: PIN_HEIGHT,
+    TOP_LIMIT: TOP_LIMIT,
+    BOTTOM_LIMIT: BOTTOM_LIMIT,
     getRandomNumber: getRandomNumber,
     getRandomArrayItem: getRandomArrayItem,
     getRandomLengthArray: getRandomLengthArray,

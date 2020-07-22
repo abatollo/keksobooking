@@ -32,12 +32,6 @@ window.map = (function () {
     for (i = 0; i < window.form.adFormFieldsets.length; i++) {
       window.form.adFormFieldsets[i].disabled = false;
     }
-
-    // Устанавливаем координаты острого конца главной метки и подставляем их в поле адреса
-    // 22 пикселя — это высота острого конца, который задан с помощью элемента ::after
-    var newAddressX = mapPinMain.offsetLeft + (mapPinMain.offsetWidth / 2);
-    var newAddressY = mapPinMain.offsetTop + mapPinMain.offsetHeight + 22;
-    window.form.addressField.value = newAddressX + ', ' + newAddressY;
   };
 
   // Функция реакции на нажатие мышкой на главный маркер
