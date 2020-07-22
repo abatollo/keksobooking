@@ -32,6 +32,8 @@ window.map = (function () {
     for (i = 0; i < window.form.adFormFieldsets.length; i++) {
       window.form.adFormFieldsets[i].disabled = false;
     }
+
+    window.load.getData(window.data.successHandler, window.data.errorHandler);
   };
 
   // Функция реакции на нажатие мышкой на главный маркер

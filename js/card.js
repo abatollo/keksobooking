@@ -24,7 +24,10 @@ window.card = (function () {
 
   // Функция отрисовки одной карточки объявления
 
-  var renderSingleCard = function (ad, templateContent) {
+  var renderCard = function (ad, templateId) {
+    var fragment = document.createDocumentFragment();
+    var templateContent = document.querySelector(templateId).content;
+
     var cardElement = templateContent.cloneNode(true);
     var cardElementTitle = cardElement.querySelector('.popup__title');
     var cardElementAddress = cardElement.querySelector('.popup__text--address');
@@ -75,29 +78,20 @@ window.card = (function () {
     }
     cardElementAvatar.setAttribute('src', ad.author.avatar);
 
+    fragment.appendChild(cardElement);
+
+    var beforeElement = document.querySelector('.map__filters-container');
+    document.querySelector('.map').insertBefore(fragment, beforeElement);
+
     cardElementClose.addEventListener('click', function () {
       removeCard();
     });
 
     document.addEventListener('keydown', onCardEscPress);
-
-    return cardElement;
-  };
-
-  // Функция отрисовки всех карточек объявлений
-
-  var renderCards = function (adsArray, arrayIndex, templateId) {
-    var fragment = document.createDocumentFragment();
-    var cardTemplateContent = document.querySelector(templateId).content;
-
-    fragment.appendChild(renderSingleCard(adsArray[arrayIndex], cardTemplateContent));
-
-    var beforeElement = document.querySelector('.map__filters-container');
-    document.querySelector('.map').insertBefore(fragment, beforeElement);
   };
 
   return {
     removeCard: removeCard,
-    renderCards: renderCards
+    renderCard: renderCard
   };
 })();
