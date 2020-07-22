@@ -16,7 +16,7 @@ window.pin = (function () {
 
     adElement.addEventListener('click', function () {
       window.card.removeCard();
-      window.card.renderCards(window.data.ads, iterator, '#card');
+      window.card.renderCard(ad, '#card');
     });
 
     adElement.addEventListener('keydown', function (evt) {
