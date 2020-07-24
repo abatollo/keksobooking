@@ -7,9 +7,13 @@ window.util = (function () {
   var ENTER_KEYCODE = 13;
   var PIN_ID = '#pin';
   var CARD_ID = '#card';
+  var SUCCESS_ID = '#success';
+  var ERROR_ID = '#error';
   var PIN_HEIGHT = 22;
   var TOP_LIMIT = 43;
   var BOTTOM_LIMIT = 543;
+  var PIN_TOP_DEFAULT_POSITION = '375px';
+  var PIN_LEFT_DEFAULT_POSITION = '570px';
 
   // Функция получения случайного числа
 
@@ -54,6 +58,18 @@ window.util = (function () {
     return randomString;
   };
 
+  var isEscEvent = function (evt, action) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      action();
+    }
+  };
+
+  var isEnterEvent = function (evt, action) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      action();
+    }
+  };
+
   return {
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
@@ -62,9 +78,15 @@ window.util = (function () {
     PIN_HEIGHT: PIN_HEIGHT,
     TOP_LIMIT: TOP_LIMIT,
     BOTTOM_LIMIT: BOTTOM_LIMIT,
+    SUCCESS_ID: SUCCESS_ID,
+    ERROR_ID: ERROR_ID,
+    PIN_TOP_DEFAULT_POSITION: PIN_TOP_DEFAULT_POSITION,
+    PIN_LEFT_DEFAULT_POSITION: PIN_LEFT_DEFAULT_POSITION,
     getRandomNumber: getRandomNumber,
     getRandomArrayItem: getRandomArrayItem,
     getRandomLengthArray: getRandomLengthArray,
-    getRandomString: getRandomString
+    getRandomString: getRandomString,
+    isEscEvent: isEscEvent,
+    isEnterEvent: isEnterEvent
   };
 })();
