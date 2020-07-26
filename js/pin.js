@@ -4,7 +4,6 @@
 
 window.pin = (function () {
   // Функция отрисовки одного маркера внутри содержимого шаблона
-
   var renderSinglePin = function (ad, templateContent, iterator) {
     var adElement = templateContent.cloneNode(true);
     var adElementImg = adElement.querySelector('img');
@@ -30,14 +29,13 @@ window.pin = (function () {
   };
 
   // Функция отрисовки всех маркеров из полученного массива в оболочку шаблона
-
   var renderPins = function (adsArray, templateId) {
     var fragment = document.createDocumentFragment();
     var pinTemplateContent = document.querySelector(templateId).content.querySelector('.map__pin');
 
-    for (var i = 0; i < adsArray.length; i++) {
-      fragment.appendChild(renderSinglePin(adsArray[i], pinTemplateContent, i));
-    }
+    adsArray.forEach(function (ad, iterator) {
+      fragment.appendChild(renderSinglePin(ad, pinTemplateContent, iterator));
+    });
 
     document.querySelector('.map__pins').appendChild(fragment);
   };

@@ -3,19 +3,15 @@
 // Модуль, который отвечает за перетаскивание главной метки по карте
 
 window.move = (function () {
-  var mapPinMain = document.querySelector('.map__pin--main');
-
   // Устанавливаем координаты острого конца главной метки и подставляем их в поле адреса
   // window.util.PIN_HEIGHT — это высота острого конца, который задан с помощью элемента ::after
   var newAdress = function () {
-    var newAddressX = mapPinMain.offsetLeft + (mapPinMain.offsetWidth / 2);
-    var newAddressY = mapPinMain.offsetTop + mapPinMain.offsetHeight + window.util.PIN_HEIGHT;
+    var newAddressX = window.map.mainPin.offsetLeft + (window.map.mainPin.offsetWidth / 2);
+    var newAddressY = window.map.mainPin.offsetTop + window.map.mainPin.offsetHeight + window.util.PIN_HEIGHT;
     window.form.addressField.value = newAddressX + ', ' + newAddressY;
   };
 
-  var map = document.querySelector('.map');
-
-  mapPinMain.addEventListener('mousedown', function (evt) {
+  window.map.mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var startCoords = {
@@ -36,15 +32,15 @@ window.move = (function () {
         y: moveEvt.clientY,
       };
 
-      var topShift = mapPinMain.offsetTop - shift.y;
-      var leftShift = mapPinMain.offsetLeft - shift.x;
+      var topShift = window.map.mainPin.offsetTop - shift.y;
+      var leftShift = window.map.mainPin.offsetLeft - shift.x;
 
       if ((topShift >= window.util.TOP_LIMIT) && (topShift <= window.util.BOTTOM_LIMIT)) {
-        mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+        window.map.mainPin.style.top = (window.map.mainPin.offsetTop - shift.y) + 'px';
       }
 
-      if ((leftShift >= (0 - (mapPinMain.offsetWidth / 2))) && (leftShift <= (map.offsetWidth - (mapPinMain.offsetWidth / 2)))) {
-        mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+      if ((leftShift >= (0 - (window.map.mainPin.offsetWidth / 2))) && (leftShift <= (window.map.map.offsetWidth - (window.map.mainPin.offsetWidth / 2)))) {
+        window.map.mainPin.style.left = (window.map.mainPin.offsetLeft - shift.x) + 'px';
       }
 
       newAdress();

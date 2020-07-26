@@ -1,7 +1,9 @@
 'use strict';
 
+// Модуль, который отвечает за отправку данных на сервер
+
 window.upload = (function () {
-  var URL = 'https://javascript.pages.academy/keksobooking';
+  var URL = window.util.UPLOAD_DATA_URL;
   var StatusCode = {
     OK: 200
   };

@@ -1,11 +1,12 @@
 'use strict';
 
-// Модуль, который создаёт данные
+// Модуль, который получает и передаёт данные на отрисовку
 
 window.data = (function () {
 
   var successHandler = function (adsArray) {
-    window.pin.renderPins(adsArray, window.util.PIN_ID);
+    window.adsArray = adsArray;
+    window.pin.renderPins(window.adsArray, window.util.PIN_ID);
   };
 
   var errorHandler = function (errorMessage) {

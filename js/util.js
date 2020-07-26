@@ -1,14 +1,17 @@
 'use strict';
 
-// Модуль утилитарных функций и данных
+// Модуль, который отвечает за константы и утилитарные функции
 
 window.util = (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var LEFT_MOUSE_BUTTON_CODE = 0;
   var PIN_ID = '#pin';
   var CARD_ID = '#card';
   var SUCCESS_ID = '#success';
   var ERROR_ID = '#error';
+  var DOWNLOAD_DATA_URL = 'https://javascript.pages.academy/keksobooking/data';
+  var UPLOAD_DATA_URL = 'https://javascript.pages.academy/keksobooking';
   var PIN_HEIGHT = 22;
   var TOP_LIMIT = 43;
   var BOTTOM_LIMIT = 543;
@@ -73,13 +76,16 @@ window.util = (function () {
   return {
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
+    LEFT_MOUSE_BUTTON_CODE,
     PIN_ID: PIN_ID,
     CARD_ID: CARD_ID,
+    SUCCESS_ID: SUCCESS_ID,
+    ERROR_ID: ERROR_ID,
+    DOWNLOAD_DATA_URL: DOWNLOAD_DATA_URL,
+    UPLOAD_DATA_URL: UPLOAD_DATA_URL,
     PIN_HEIGHT: PIN_HEIGHT,
     TOP_LIMIT: TOP_LIMIT,
     BOTTOM_LIMIT: BOTTOM_LIMIT,
-    SUCCESS_ID: SUCCESS_ID,
-    ERROR_ID: ERROR_ID,
     PIN_TOP_DEFAULT_POSITION: PIN_TOP_DEFAULT_POSITION,
     PIN_LEFT_DEFAULT_POSITION: PIN_LEFT_DEFAULT_POSITION,
     getRandomNumber: getRandomNumber,

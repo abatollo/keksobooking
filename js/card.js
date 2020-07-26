@@ -1,10 +1,9 @@
 'use strict';
 
-// Модуль, который отвечает за создание карточки объявлений
+// Модуль, который отвечает за создание и удаление карточки с объявлением
 
 window.card = (function () {
   // Функция удаления карточки объявления
-
   var removeCard = function () {
     var oldCard = document.querySelector('.map__card');
     if (oldCard) {
@@ -13,7 +12,6 @@ window.card = (function () {
   };
 
   // Функция удаления карточки объявления по нажатию на Escape
-
   var onCardEscPress = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
       evt.preventDefault();
@@ -23,7 +21,6 @@ window.card = (function () {
   };
 
   // Функция отрисовки одной карточки объявления
-
   var renderCard = function (ad, templateId) {
     var fragment = document.createDocumentFragment();
     var templateContent = document.querySelector(templateId).content;
