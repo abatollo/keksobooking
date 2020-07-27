@@ -28,7 +28,10 @@ window.filter = (function () {
 
     window.pin.deletePins();
 
-    window.pin.renderPins(slicedFilteredAds, window.util.PIN_ID);
+    window.debounce.debounce(function () {
+      window.pin.renderPins(slicedFilteredAds, window.util.PIN_ID);
+    }
+    );
   };
 
   form.addEventListener('change', function () {
