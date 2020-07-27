@@ -4,10 +4,10 @@
 
 window.move = (function () {
   // Устанавливаем координаты острого конца главной метки и подставляем их в поле адреса
-  // window.util.PIN_HEIGHT — это высота острого конца, который задан с помощью элемента ::after
+  // window.util.MAIN_PIN_TIP_HEIGHT — это высота острого конца, который задан с помощью элемента ::after
   var newAdress = function () {
     var newAddressX = window.map.mainPin.offsetLeft + (window.map.mainPin.offsetWidth / 2);
-    var newAddressY = window.map.mainPin.offsetTop + window.map.mainPin.offsetHeight + window.util.PIN_HEIGHT;
+    var newAddressY = window.map.mainPin.offsetTop + window.map.mainPin.offsetHeight + window.util.MAIN_PIN_TIP_HEIGHT;
     window.form.addressField.value = newAddressX + ', ' + newAddressY;
   };
 

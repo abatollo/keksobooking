@@ -25,8 +25,6 @@ window.map = (function () {
     }
   };
 
-  
-
   return {
     map: map,
     mainPin: mainPin, // window.map.mainPin

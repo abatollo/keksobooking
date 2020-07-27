@@ -8,8 +8,8 @@ window.pin = (function () {
     var adElement = templateContent.cloneNode(true);
     var adElementImg = adElement.querySelector('img');
 
-    adElement.style.left = ad.location.x - 25 + 'px';
-    adElement.style.top = ad.location.y - 70 + 'px';
+    adElement.style.left = ad.location.x - window.util.PIN_WIDTH / 2 + 'px';
+    adElement.style.top = ad.location.y - window.util.PIN_HEIGHT + 'px';
     adElementImg.setAttribute('src', ad.author.avatar);
     adElementImg.setAttribute('alt', ad.offer.title);
 
@@ -34,7 +34,9 @@ window.pin = (function () {
     var pinTemplateContent = document.querySelector(templateId).content.querySelector('.map__pin');
 
     adsArray.forEach(function (ad, iterator) {
-      fragment.appendChild(renderSinglePin(ad, pinTemplateContent, iterator));
+      if (ad.offer) {
+        fragment.appendChild(renderSinglePin(ad, pinTemplateContent, iterator));
+      }
     });
 
     document.querySelector('.map__pins').appendChild(fragment);

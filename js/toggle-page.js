@@ -16,9 +16,9 @@ window.togglePage = (function () {
 
     // Убираем у select в форме фильтрации объявлений атрибут disabled, раз пользователь активировал карту и форму
     Array.from(window.map.selects).forEach(
-      function (select) {
-        select.disabled = false;
-      }
+        function (select) {
+          select.disabled = false;
+        }
     );
 
     // Убираем у fieldset в форме фильтрации объявлений атрибут disabled, раз пользователь активировал карту и форму
@@ -31,9 +31,9 @@ window.togglePage = (function () {
 
     // Убираем у блоков fieldset в форме заполнения объявления атрибут disabled, раз пользователь активировал карту и форму
     Array.from(window.form.fieldsets).forEach(
-      function (fieldset) {
-        fieldset.disabled = false;
-      }
+        function (fieldset) {
+          fieldset.disabled = false;
+        }
     );
 
     // Запрашиваем данные с сервера и отрисовываем метки, если данные получены, или выводим сообщение об ошибке, если что-то не так
@@ -52,9 +52,9 @@ window.togglePage = (function () {
 
     // Добавляем select в форме фильтрации объявлений атрибут disabled, раз пользователь деактивировал карту и форму
     Array.from(window.map.selects).forEach(
-      function (select) {
-        select.disabled = true;
-      }
+        function (select) {
+          select.disabled = true;
+        }
     );
 
     // Добавляем fieldset в форме фильтрации объявлений атрибут disabled, раз пользователь деактивировал карту и форму
@@ -67,9 +67,9 @@ window.togglePage = (function () {
 
     // Добавляем блокам fieldset в форме заполнения объявления атрибут disabled, раз пользователь деактивировал карту и форму
     Array.from(window.form.fieldsets).forEach(
-      function (fieldset) {
-        fieldset.disabled = true;
-      }
+        function (fieldset) {
+          fieldset.disabled = true;
+        }
     );
 
     // Сбрасываем все значения формы на значения по умолчанию

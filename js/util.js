@@ -12,14 +12,15 @@ window.util = (function () {
   var ERROR_ID = '#error';
   var DOWNLOAD_DATA_URL = 'https://javascript.pages.academy/keksobooking/data';
   var UPLOAD_DATA_URL = 'https://javascript.pages.academy/keksobooking';
-  var PIN_HEIGHT = 22;
+  var MAIN_PIN_TIP_HEIGHT = 22;
+  var PIN_HEIGHT = 70;
+  var PIN_WIDTH = 50;
   var TOP_LIMIT = 43;
   var BOTTOM_LIMIT = 543;
   var PIN_TOP_DEFAULT_POSITION = '375px';
   var PIN_LEFT_DEFAULT_POSITION = '570px';
 
   // Функция получения случайного числа
-
   var getRandomNumber = function (min, max) {
     var randomNumber = Math.floor(Math.random() * (max - min) + min);
 
@@ -27,7 +28,6 @@ window.util = (function () {
   };
 
   // Функция получения случайного элемента из массива
-
   var getRandomArrayItem = function (arr) {
     var randomArrayItem = arr[getRandomNumber(0, arr.length)];
 
@@ -35,7 +35,6 @@ window.util = (function () {
   };
 
   // Функция получения массива случайной длины
-
   var getRandomLengthArray = function (arr) {
     var randomLength = getRandomNumber(0, arr.length);
     var randomArray = [];
@@ -76,18 +75,20 @@ window.util = (function () {
   return {
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
-    LEFT_MOUSE_BUTTON_CODE,
+    LEFT_MOUSE_BUTTON_CODE: LEFT_MOUSE_BUTTON_CODE,
     PIN_ID: PIN_ID,
     CARD_ID: CARD_ID,
     SUCCESS_ID: SUCCESS_ID,
     ERROR_ID: ERROR_ID,
     DOWNLOAD_DATA_URL: DOWNLOAD_DATA_URL,
     UPLOAD_DATA_URL: UPLOAD_DATA_URL,
-    PIN_HEIGHT: PIN_HEIGHT,
+    MAIN_PIN_TIP_HEIGHT: MAIN_PIN_TIP_HEIGHT,
     TOP_LIMIT: TOP_LIMIT,
     BOTTOM_LIMIT: BOTTOM_LIMIT,
     PIN_TOP_DEFAULT_POSITION: PIN_TOP_DEFAULT_POSITION,
     PIN_LEFT_DEFAULT_POSITION: PIN_LEFT_DEFAULT_POSITION,
+    PIN_HEIGHT: PIN_HEIGHT,
+    PIN_WIDTH: PIN_WIDTH,
     getRandomNumber: getRandomNumber,
     getRandomArrayItem: getRandomArrayItem,
     getRandomLengthArray: getRandomLengthArray,
