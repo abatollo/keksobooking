@@ -1,7 +1,9 @@
 'use strict';
 
-window.load = (function () {
-  var URL = 'https://javascript.pages.academy/keksobooking/data';
+// Модуль, который отвечает за запрос данных на сервере
+
+window.download = (function () {
+  var URL = window.util.DOWNLOAD_DATA_URL;
   var StatusCode = {
     OK: 200
   };

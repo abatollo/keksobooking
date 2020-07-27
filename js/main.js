@@ -1,7 +1,7 @@
 'use strict';
 
+// Модуль, который отвечает за предстартовую работу приложения
+
 window.main = (function () {
-  // Сразу подставляем координаты острого конца метки в поле адреса
-  window.move.newAdress();
-  window.form.resetForm();
+  window.togglePage.deactivate();
 })();

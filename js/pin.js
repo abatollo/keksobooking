@@ -4,13 +4,12 @@
 
 window.pin = (function () {
   // Функция отрисовки одного маркера внутри содержимого шаблона
-
   var renderSinglePin = function (ad, templateContent, iterator) {
     var adElement = templateContent.cloneNode(true);
     var adElementImg = adElement.querySelector('img');
 
-    adElement.style.left = ad.location.x - 25 + 'px';
-    adElement.style.top = ad.location.y - 70 + 'px';
+    adElement.style.left = ad.location.x - window.util.PIN_WIDTH / 2 + 'px';
+    adElement.style.top = ad.location.y - window.util.PIN_HEIGHT + 'px';
     adElementImg.setAttribute('src', ad.author.avatar);
     adElementImg.setAttribute('alt', ad.offer.title);
 
@@ -30,20 +29,31 @@ window.pin = (function () {
   };
 
   // Функция отрисовки всех маркеров из полученного массива в оболочку шаблона
-
   var renderPins = function (adsArray, templateId) {
     var fragment = document.createDocumentFragment();
     var pinTemplateContent = document.querySelector(templateId).content.querySelector('.map__pin');
 
-    for (var i = 0; i < adsArray.length; i++) {
-      fragment.appendChild(renderSinglePin(adsArray[i], pinTemplateContent, i));
-    }
+    adsArray.forEach(function (ad, iterator) {
+      if (ad.offer) {
+        fragment.appendChild(renderSinglePin(ad, pinTemplateContent, iterator));
+      }
+    });
 
     document.querySelector('.map__pins').appendChild(fragment);
   };
 
+  var deletePins = function () {
+    var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    Array.from(allPins).forEach(
+        function (pin) {
+          pin.remove();
+        }
+    );
+  };
+
   return {
     renderSinglePin: renderSinglePin,
-    renderPins: renderPins
+    renderPins: renderPins,
+    deletePins: deletePins
   };
 })();
