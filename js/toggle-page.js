@@ -97,10 +97,7 @@ window.togglePage = (function () {
     }
 
     // Удаляем все метки, кроме главной
-    var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (i = 0; i < allPins.length; i++) {
-      allPins[i].remove();
-    }
+    window.pin.deletePins();
 
     // Удаляем карточку, если она открыта
     window.card.removeCard();

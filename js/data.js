@@ -6,7 +6,10 @@ window.data = (function () {
 
   var successHandler = function (adsArray) {
     window.adsArray = adsArray;
-    window.pin.renderPins(window.adsArray, window.util.PIN_ID);
+
+    var adsRender = window.adsArray.slice(0, 5);
+
+    window.pin.renderPins(adsRender, window.util.PIN_ID);
   };
 
   var errorHandler = function (errorMessage) {

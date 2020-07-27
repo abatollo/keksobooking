@@ -27,7 +27,7 @@ window.map = (function () {
 
   return {
     map: map,
-    mainPin: mainPin, // window.map.mainPin
+    mainPin: mainPin,
     selects: selects,
     fieldset: fieldset,
     onMainPinClick: onMainPinClick,

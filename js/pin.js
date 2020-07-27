@@ -42,8 +42,18 @@ window.pin = (function () {
     document.querySelector('.map__pins').appendChild(fragment);
   };
 
+  var deletePins = function () {
+    var allPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    Array.from(allPins).forEach(
+        function (pin) {
+          pin.remove();
+        }
+    );
+  };
+
   return {
     renderSinglePin: renderSinglePin,
-    renderPins: renderPins
+    renderPins: renderPins,
+    deletePins: deletePins
   };
 })();
