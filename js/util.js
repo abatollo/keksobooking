@@ -19,46 +19,9 @@ window.util = (function () {
   var BOTTOM_LIMIT = 543;
   var PIN_TOP_DEFAULT_POSITION = '375px';
   var PIN_LEFT_DEFAULT_POSITION = '570px';
-
-  // Функция получения случайного числа
-  var getRandomNumber = function (min, max) {
-    var randomNumber = Math.floor(Math.random() * (max - min) + min);
-
-    return randomNumber;
-  };
-
-  // Функция получения случайного элемента из массива
-  var getRandomArrayItem = function (arr) {
-    var randomArrayItem = arr[getRandomNumber(0, arr.length)];
-
-    return randomArrayItem;
-  };
-
-  // Функция получения массива случайной длины
-  var getRandomLengthArray = function (arr) {
-    var randomLength = getRandomNumber(0, arr.length);
-    var randomArray = [];
-
-    for (var i = 0; i < randomLength; i++) {
-      var randomItem = getRandomArrayItem(arr);
-
-      if (randomArray.indexOf(randomItem) === -1) {
-        randomArray[i] = randomItem;
-      } else {
-        i--;
-      }
-    }
-
-    return randomArray;
-  };
-
-  // Функция получения случайной строки
-
-  var getRandomString = function () {
-    var randomString = Math.random().toString(36).substring(2, 15);
-
-    return randomString;
-  };
+  var MAX_PINS_AMOUNT = 5;
+  var FILTER_LOW_PRICE = 10000;
+  var FILTER_HIGH_PRICE = 50000;
 
   var isEscEvent = function (evt, action) {
     if (evt.keyCode === ESC_KEYCODE) {
@@ -73,8 +36,6 @@ window.util = (function () {
   };
 
   return {
-    ESC_KEYCODE: ESC_KEYCODE,
-    ENTER_KEYCODE: ENTER_KEYCODE,
     LEFT_MOUSE_BUTTON_CODE: LEFT_MOUSE_BUTTON_CODE,
     PIN_ID: PIN_ID,
     CARD_ID: CARD_ID,
@@ -89,10 +50,9 @@ window.util = (function () {
     PIN_LEFT_DEFAULT_POSITION: PIN_LEFT_DEFAULT_POSITION,
     PIN_HEIGHT: PIN_HEIGHT,
     PIN_WIDTH: PIN_WIDTH,
-    getRandomNumber: getRandomNumber,
-    getRandomArrayItem: getRandomArrayItem,
-    getRandomLengthArray: getRandomLengthArray,
-    getRandomString: getRandomString,
+    MAX_PINS_AMOUNT: MAX_PINS_AMOUNT,
+    FILTER_LOW_PRICE: FILTER_LOW_PRICE,
+    FILTER_HIGH_PRICE: FILTER_HIGH_PRICE,
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent
   };

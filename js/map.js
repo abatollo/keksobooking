@@ -20,9 +20,9 @@ window.map = (function () {
   // Функция реакции на нажатие с клавиатуры по главному маркеру
   var onMainPinKeydown = function (evt) {
     // Реагируем на нажатие клавиатурной клавиши Enter, Return или её эквивалента по коду
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    window.util.isEnterEvent(evt, function () {
       window.togglePage.activate();
-    }
+    });
   };
 
   return {

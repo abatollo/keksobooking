@@ -3,6 +3,13 @@
 // Модуль, который отвечает за создание и удаление карточки с объявлением
 
 window.card = (function () {
+  var OFFER_TYPES = {
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'house': 'Дом',
+    'palace': 'Дворец'
+  };
+
   // Функция удаления карточки объявления
   var removeCard = function () {
     var oldCard = document.querySelector('.map__card');
@@ -13,27 +20,11 @@ window.card = (function () {
 
   // Функция удаления карточки объявления по нажатию на Escape
   var onCardEscPress = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    window.util.isEscEvent(evt, function () {
       evt.preventDefault();
       removeCard();
       document.removeEventListener('keydown', onCardEscPress);
-    }
-  };
-
-  var setImage = function (element, content, action) {
-    if (content) {
-      action();
-    } else {
-      element.remove();
-    }
-  };
-
-  var setArray = function (element, content, action) {
-    if (content && content.length > 0) {
-      action();
-    } else {
-      element.remove();
-    }
+    });
   };
 
   var setText = function (element, content, action) {
@@ -50,13 +41,6 @@ window.card = (function () {
 
   // Функция отрисовки одной карточки объявления
   var renderCard = function (ad, templateId) {
-    var OFFER_TYPE_MATCH = {
-      'flat': 'Квартира',
-      'bungalo': 'Бунгало',
-      'house': 'Дом',
-      'palace': 'Дворец'
-    };
-
     var fragment = document.createDocumentFragment();
     var templateContent = document.querySelector(templateId).content;
 
@@ -74,7 +58,7 @@ window.card = (function () {
     var cardElementFeaturesWasher = cardElementFeatures.querySelector('.popup__feature--washer');
     var cardElementFeaturesElevator = cardElementFeatures.querySelector('.popup__feature--elevator');
     var cardElementFeaturesConditioner = cardElementFeatures.querySelector('.popup__feature--conditioner');
-    var FEATURE_ELEMENT_MATCH = {
+    var OfferFeatures = {
       'wifi': cardElementFeaturesWifi,
       'dishwasher': cardElementFeaturesDishwasher,
       'parking': cardElementFeaturesParking,
@@ -97,7 +81,7 @@ window.card = (function () {
     });
 
     setText(cardElementType, ad.offer.type, function () {
-      return OFFER_TYPE_MATCH[ad.offer.type];
+      return OFFER_TYPES[ad.offer.type];
     });
 
     setText(cardElementRoomsGuests, ad.offer.rooms, function () {
@@ -108,32 +92,35 @@ window.card = (function () {
       return 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
     });
 
-    setArray(cardElementFeatures, ad.offer.features, function () {
+    if (ad.offer.features && ad.offer.features.length > 0) {
       cardElementFeatures.innerHTML = '';
-      Array.from(ad.offer.features).forEach(
+      ad.offer.features.forEach(
           function (feature) {
-            cardElementFeatures.appendChild(FEATURE_ELEMENT_MATCH[feature]);
+            cardElementFeatures.appendChild(OfferFeatures[feature]);
           }
       );
-    });
+    } else {
+      cardElementFeatures.remove();
+    }
 
     setText(cardElementDescription, ad.offer.description);
 
-    setArray(cardElementPhotos, ad.offer.photos, function () {
-      cardElementPhotosImage.setAttribute('src', ad.offer.photos[0].toString());
-      if (ad.offer.photos.length > 1) {
-        cardElementPhotosImage.setAttribute('src', ad.offer.photos[0].toString());
+    if (ad.offer.photos && ad.offer.photos.length > 0) {
+      cardElementPhotosImage.remove();
+      ad.offer.photos.forEach(function (photo) {
         var cardElementPhotosImageCloned = cardElementPhotosImage.cloneNode(true);
-        for (var i = 1; i < ad.offer.photos.length; i++) {
-          cardElementPhotosImageCloned.setAttribute('src', ad.offer.photos[i].toString());
-          cardElementPhotos.appendChild(cardElementPhotosImageCloned);
-        }
-      }
-    });
+        cardElementPhotosImageCloned.setAttribute('src', photo);
+        cardElementPhotos.appendChild(cardElementPhotosImageCloned);
+      });
+    } else {
+      cardElementPhotos.remove();
+    }
 
-    setImage(cardElementAvatar, ad.author.avatar, function () {
+    if (ad.author.avatar) {
       cardElementAvatar.setAttribute('src', ad.author.avatar);
-    });
+    } else {
+      cardElementAvatar.remove();
+    }
 
     fragment.appendChild(cardElement);
 

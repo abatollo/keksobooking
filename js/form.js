@@ -71,29 +71,29 @@ window.form = (function () {
   // Отправляем данные на сервер и показываем сообщение об успехе, если данные дошли, или выводим сообщение об ошибке, если что-то не так
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(form), successHandler, errorHandler);
+    window.upload(new FormData(form), onSuccess, onError);
   });
 
-  var successHandler = function () {
+  var onSuccess = function () {
     window.togglePage.deactivate();
     window.response.renderSuccess(window.util.SUCCESS_ID);
   };
 
-  var errorHandler = function () {
+  var onError = function () {
     window.response.renderError(window.util.ERROR_ID);
   };
 
-  // Добавляем обработчики кнопки сброса формы, которые деактивируют всю страницу
+  // На кнопку сброса формы добавляем обработчики, которые деактивируют всю страницу
   resetButton.addEventListener('click', function (evt) {
     evt.preventDefault();
     window.togglePage.deactivate();
   });
 
   resetButton.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    window.util.isEnterEvent(evt, function () {
       evt.preventDefault();
       window.togglePage.deactivate();
-    }
+    });
   });
 
   return {

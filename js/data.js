@@ -4,15 +4,15 @@
 
 window.data = (function () {
 
-  var successHandler = function (adsArray) {
+  var onSuccess = function (adsArray) {
     window.adsArray = adsArray;
 
-    var adsRender = window.adsArray.slice(0, 5);
+    var adsRender = window.adsArray.slice(0, window.util.MAX_PINS_AMOUNT);
 
     window.pin.renderPins(adsRender, window.util.PIN_ID);
   };
 
-  var errorHandler = function (errorMessage) {
+  var onError = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -25,7 +25,7 @@ window.data = (function () {
   };
 
   return {
-    successHandler: successHandler,
-    errorHandler: errorHandler
+    onSuccess: onSuccess,
+    onError: onError
   };
 })();
