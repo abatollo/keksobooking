@@ -36,7 +36,5 @@ window.download = (function () {
     xhr.send();
   };
 
-  return {
-    getData: getData
-  };
+  return getData;
 })();

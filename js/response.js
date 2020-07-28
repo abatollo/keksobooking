@@ -34,19 +34,19 @@ window.response = (function () {
   };
 
   var onSuccessEscPress = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    window.util.isEscEvent(evt, function () {
       var successElement = document.querySelector('.success');
       successElement.remove();
       document.removeEventListener('keydown', onSuccessEscPress);
-    }
+    });
   };
 
   var onErrorEscPress = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    window.util.isEscEvent(evt, function () {
       var errorElement = document.querySelector('.error');
       errorElement.remove();
       document.removeEventListener('keydown', onErrorEscPress);
-    }
+    });
   };
 
   return {

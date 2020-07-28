@@ -37,7 +37,7 @@ window.togglePage = (function () {
     );
 
     // Запрашиваем данные с сервера и отрисовываем метки, если данные получены, или выводим сообщение об ошибке, если что-то не так
-    window.download.getData(window.data.successHandler, window.data.errorHandler);
+    window.download(window.data.onSuccess, window.data.onError);
   };
 
   var deactivate = function () {
@@ -60,6 +60,8 @@ window.togglePage = (function () {
     // Добавляем fieldset в форме фильтрации объявлений атрибут disabled, раз пользователь деактивировал карту и форму
     window.map.fieldset.disabled = true;
 
+    window.filter.form.reset();
+
     // -= Деактивируем форму =-
 
     // Добавляем затенение форме, раз пользователь деактивировал карту и форму
@@ -75,15 +77,8 @@ window.togglePage = (function () {
     // Сбрасываем все значения формы на значения по умолчанию
     window.form.form.reset();
 
-    // По умолчанию в количестве комнат устаналиваем одну комнату
-    for (var i = 0; i < window.form.roomNumberSelectOptions.length; i++) {
-      if (window.form.roomNumberSelectOptions[i].value === '1') {
-        window.form.roomNumberSelectOptions[i].selected = true;
-      }
-    }
-
     // По умолчанию в количестве гостей устаналиваем одного гостя
-    for (i = 0; i < window.form.capacitySelectOptions.length; i++) {
+    for (var i = 0; i < window.form.capacitySelectOptions.length; i++) {
       if (window.form.capacitySelectOptions[i].value === '1') {
         window.form.capacitySelectOptions[i].selected = true;
       }
@@ -107,8 +102,17 @@ window.togglePage = (function () {
     window.map.mainPin.style.top = window.util.PIN_TOP_DEFAULT_POSITION;
 
     // Подставляем координаты острого конца метки в поле адреса
-    window.move.newAdress();
+    window.move();
+
+    // Устанавливаем в блоке предпросмотра аватарки изображение по умолчанию
+    window.imagePreview.avatarPreview.src = 'img/muffin-grey.svg';
+
+    // Удаляем содержимое блока предпросмотра фотографий жилья
+    window.imagePreview.photoPreview.innerHTML = '';
   };
+
+  // При первом открытии страницы — деактивируем страницу
+  deactivate();
 
   return {
     activate: activate,
